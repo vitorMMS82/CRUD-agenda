@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Guilherme Amorim" />
+  <title>Agenda de Contatos</title>
+</head>
+<body>
+  <script>
+    let agendaContatos = [];
+
+    function showMenu() {
+      return parseInt(
+        prompt(`
+              ***** AGENDA *****
+              [1] - Adicionar contato
+              [2] - Visualizar contatos
+              [3] - Editar contato
+              [4] - Excluir contato
+              [5] - Sair do programa
+          `)
+      );
+    }
+
+    // Função para adicionar um novo contato
+    const adicionarContato = () => {
+      const nome = prompt("Digite o nome do contato:");
+      const numero = prompt("Digite o número do contato:");
+      const email = prompt("Digite o email do contato:");
+
+      if (!nome || !numero || !email) {
+        alert("Todos os campos são obrigatórios!");
+        return;
+      }
+
+      const dataHoraAtual = new Date().toLocaleString();
+      agendaContatos.push({ nome, numero, email, dataHoraAdicao: dataHoraAtual });
+      alert("Contato adicionado com sucesso!");
+    };
+
+    // Função para visualizar todos os contatos na agenda
+    const visualizarContatos = () => {
+      let listaContatos = "";
+
+      if (agendaContatos.length === 0) {
+        alert("A agenda está vazia.");
+        return;
+      }
+
+      agendaContatos.forEach(contato => {
+        listaContatos += `Nome: ${contato.nome}, Número: ${contato.numero}, Email: ${contato.email}, Adicionado em: ${contato.dataHoraAdicao}\n`;
+      });
+
+      alert("***** Lista de Contatos *****\n" + listaContatos);
+    };
+
+    // Função para editar um contato existente na agenda
+    const editarContato = () => {
+      const nomeEditar = prompt("Digite o nome do contato que deseja editar:");
+      const index = agendaContatos.findIndex(contato => contato.nome === nomeEditar);
+
+      if (index === -1) {
+        alert("Contato não encontrado.");
+        return;
+      }
+
+      const novoNome = prompt("Digite o novo nome:");
+      const novoNumero = prompt("Digite o novo número:");
+      const novoEmail = prompt("Digite o novo email:");
+
+      if (novoNome) agendaContatos[index].nome = novoNome;
+      if (novoNumero) agendaContatos[index].numero = novoNumero;
+      if (novoEmail) agendaContatos[index].email = novoEmail;
+
+      alert("Contato atualizado com sucesso!");
+    };
+
+    // Função para excluir um contato da agenda
+    const excluirContato = () => {
+      const emailExcluir = prompt("Digite o email do contato que deseja excluir:");
+      const index = agendaContatos.findIndex(contato => contato.email === emailExcluir);
+
+      if (index === -1) {
+        alert("Contato não encontrado.");
+        return;
+      }
+
+      agendaContatos.splice(index, 1);
+      alert("Contato excluído com sucesso!");
+    };
+
+    let continuar = true;
+
+    while (continuar) {
+      switch (showMenu()) {
+        case 1:
+          adicionarContato();
+          break;
+        case 2:
+          visualizarContatos();
+          break;
+        case 3:
+          editarContato();
+          break;
+        case 4:
+          excluirContato();
+          break;
+        case 5:
+          alert("Saindo do programa. Até mais!");
+          continuar = false;
+          break;
+        default:
+          alert("Opção inválida. Tente novamente.");
+          break;
+      }
+    }
+  </script>
+</body>
+</html>
